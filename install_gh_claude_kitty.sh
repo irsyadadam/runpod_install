@@ -5,8 +5,10 @@ apt-get install -y tmux
 
 export TERM=xterm-256color
 
+cat > ~/.tmux.conf <<'EOF'
 set -g mouse on
-tmux source-file ~/.tmux.conf
+set -g history-limit 50000
+EOF
 
 curl -fsSL https://claude.ai/install.sh | bash
 
