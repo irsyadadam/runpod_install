@@ -1,3 +1,4 @@
+```bash
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
@@ -150,7 +151,23 @@ else
 fi
 
 # -------------------------------------------------------------------
-# 7. Verify installation
+# 7. Install OpenAI Codex CLI
+# -------------------------------------------------------------------
+CODEX_BIN="$TARGET_HOME/.local/bin/codex"
+
+if [[ -x "$CODEX_BIN" ]]; then
+    echo "Codex CLI is already installed."
+else
+    echo "Installing Codex CLI..."
+
+    run_as_target bash -c '
+        set -o pipefail
+        curl -fsSL https://chatgpt.com/codex/install.sh | sh
+    '
+fi
+
+# -------------------------------------------------------------------
+# 8. Verify installation
 # -------------------------------------------------------------------
 echo
 echo "Verifying installations..."
@@ -164,12 +181,22 @@ fi
 
 run_as_target "$CLAUDE_BIN" --version
 
+if [[ ! -x "$CODEX_BIN" ]]; then
+    echo "ERROR: Codex installation completed, but $CODEX_BIN was not found." >&2
+    exit 1
+fi
+
+run_as_target "$CODEX_BIN" --version
+
 echo
 echo "Setup completed successfully."
+echo
 echo "Open a new terminal, or run:"
 echo
 echo "    source \"$TARGET_HOME/.bashrc\""
 echo
-echo "Then start Claude Code with:"
+echo "Then start either coding agent with:"
 echo
 echo "    claude"
+echo "    codex"
+```
