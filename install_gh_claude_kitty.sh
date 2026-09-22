@@ -1,4 +1,3 @@
-```bash
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
@@ -199,4 +198,3 @@ echo "Then start either coding agent with:"
 echo
 echo "    claude"
 echo "    codex"
-```
